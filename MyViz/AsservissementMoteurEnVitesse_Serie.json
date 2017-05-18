@@ -1,0 +1,242 @@
+{
+	"version": 1,
+	"allow_edit": true,
+	"plugins": [],
+	"panes": [
+		{
+			"title": "Tracés",
+			"width": 1,
+			"row": {
+				"2": 9,
+				"3": 1,
+				"4": 1,
+				"5": 7
+			},
+			"col": {
+				"2": 2,
+				"3": 2,
+				"4": 3,
+				"5": 3
+			},
+			"col_width": "2",
+			"widgets": [
+				{
+					"type": "plot",
+					"settings": {
+						"title": "Commande et vitesse",
+						"xaxis": "datasource_column",
+						"time": "datasources[\"sp\"][\"Temps\"]",
+						"time_window": "4",
+						"value": [
+							"datasources[\"sp\"][\"Consigne\"]",
+							"datasources[\"sp\"][\"Vitesse\"]"
+						],
+						"y_axis_min_range": "-1,1",
+						"y2value": [
+							"datasources[\"sp\"][\"Commande\"]"
+						],
+						"y2_axis_min_range": "-10,10",
+						"include_legend": true,
+						"legendStr": "Ref (rad/s),Vitesse (rad/s),Commande (V)",
+						"height": 4,
+						"pausable": true
+					}
+				}
+			]
+		},
+		{
+			"title": "Consignes moteurs",
+			"width": 1,
+			"row": {
+				"3": 1,
+				"4": 1,
+				"5": 9
+			},
+			"col": {
+				"3": 1,
+				"4": 2,
+				"5": 1
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "switchbutton",
+					"settings": {
+						"title": "Type de signal (carré ou sinus)",
+						"variable": "datasources[\"sp\"][\"typeSignal\"]",
+						"yestext": "Sinus",
+						"notext": "Carré",
+						"initialstate": false
+					}
+				},
+				{
+					"type": "slider",
+					"settings": {
+						"title": "Offset",
+						"variable": "datasources[\"sp\"][\"offset\"]",
+						"formula": "10*x+100",
+						"initialvalue": 0,
+						"min": -10,
+						"max": 10,
+						"resolution": 1,
+						"resetvalue": 0,
+						"resetcaption": "Reset"
+					}
+				},
+				{
+					"type": "slider",
+					"settings": {
+						"title": "Amplitude",
+						"variable": "datasources[\"sp\"][\"amplitude\"]",
+						"formula": "10*x",
+						"initialvalue": 0,
+						"min": 0,
+						"max": 10,
+						"resolution": 1,
+						"resetvalue": 0,
+						"resetcaption": "Reset"
+					}
+				},
+				{
+					"type": "slider",
+					"settings": {
+						"title": "Fréquence",
+						"variable": "datasources[\"sp\"][\"frequence\"]",
+						"formula": "100*x",
+						"initialvalue": 0,
+						"min": 0,
+						"max": 5,
+						"resolution": 2,
+						"resetvalue": 0,
+						"resetcaption": "Reset"
+					}
+				}
+			]
+		},
+		{
+			"title": "Vitesse moteur",
+			"width": 1,
+			"row": {
+				"3": 11,
+				"4": 9,
+				"5": 9
+			},
+			"col": {
+				"3": 3,
+				"4": 4,
+				"5": 3
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "text_widget",
+					"settings": {
+						"title": "Vitesse moteur",
+						"size": "regular",
+						"value": "datasources[\"sp\"][\"Vitesse\"]",
+						"animate": false,
+						"units": "rad/s"
+					}
+				}
+			]
+		},
+		{
+			"title": "Gains du PID",
+			"width": 1,
+			"row": {
+				"3": 11,
+				"4": 11
+			},
+			"col": {
+				"3": 2,
+				"4": 2
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "slider",
+					"settings": {
+						"title": "Kp",
+						"variable": "datasources[\"sp\"][\"Kp\"]",
+						"formula": "100*x",
+						"initialvalue": 0.25,
+						"min": 0,
+						"max": 2,
+						"resolution": 2,
+						"resetvalue": 0.25,
+						"resetcaption": "Réinitialisation"
+					}
+				},
+				{
+					"type": "slider",
+					"settings": {
+						"title": "Ki",
+						"variable": "datasources[\"sp\"][\"Ki\"]",
+						"formula": "10*x",
+						"initialvalue": 1.5,
+						"min": 0,
+						"max": 10,
+						"resolution": 2,
+						"resetvalue": 1.5,
+						"resetcaption": "Réinitialisation"
+					}
+				},
+				{
+					"type": "slider",
+					"settings": {
+						"title": "Kd",
+						"variable": "datasources[\"sp\"][\"Kd\"]",
+						"formula": "1000*x",
+						"initialvalue": 0,
+						"min": 0,
+						"max": 0.03,
+						"resolution": 3,
+						"resetvalue": 0,
+						"resetcaption": "Réinitialisation"
+					}
+				}
+			]
+		},
+		{
+			"title": "Moniteur",
+			"width": 1,
+			"row": {
+				"3": 15,
+				"4": 23
+			},
+			"col": {
+				"3": 3,
+				"4": 1
+			},
+			"col_width": "1",
+			"widgets": [
+				{
+					"type": "textarea",
+					"settings": {
+						"nblines_window": "5",
+						"value": [
+							"datasources[\"sp\"][\"_rawdata\"]"
+						]
+					}
+				}
+			]
+		}
+	],
+	"datasources": [
+		{
+			"name": "sp",
+			"type": "serialport",
+			"settings": {
+				"port": "COM5",
+				"baudrate": 115200,
+				"variables_to_read": "Temps,Consigne,Vitesse,Commande",
+				"variables_to_send": "typeSignal,offset,amplitude,frequence,Kp,Ki,Kd",
+				"refresh_rate": 500,
+				"separator": ",",
+				"checksum": "sum",
+				"name": "sp"
+			}
+		}
+	],
+	"columns": 3
+}

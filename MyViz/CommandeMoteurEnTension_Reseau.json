@@ -1,0 +1,211 @@
+{
+	"version": 1,
+	"allow_edit": true,
+	"plugins": [],
+	"panes": [
+		{
+			"title": "Tracés",
+			"width": 1,
+			"row": {
+				"2": 9,
+				"3": 1,
+				"4": 1,
+				"5": 7
+			},
+			"col": {
+				"2": 2,
+				"3": 2,
+				"4": 3,
+				"5": 3
+			},
+			"col_width": "2",
+			"widgets": [
+				{
+					"type": "plot",
+					"settings": {
+						"title": "Tension et vitesse",
+						"xaxis": "datasource_column",
+						"time": "datasources[\"ws\"][\"Temps\"]",
+						"time_window": "4",
+						"value": [
+							"datasources[\"ws\"][\"Consigne\"]"
+						],
+						"y_axis_min_range": "-1,1",
+						"y2value": [
+							"datasources[\"ws\"][\"omega\"]"
+						],
+						"y2_axis_min_range": "-10,10",
+						"include_legend": true,
+						"legendStr": "V,omega",
+						"height": 4,
+						"pausable": true
+					}
+				}
+			]
+		},
+		{
+			"title": "Démarrage de l'application",
+			"width": 1,
+			"row": {
+				"3": 1,
+				"4": 1
+			},
+			"col": {
+				"3": 1,
+				"4": 1
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "sshcommand",
+					"settings": {
+						"style": "switch",
+						"host": "192.168.100.199",
+						"login": "root",
+						"password": "pcduino",
+						"oncommand": "/root/programmes_python/startCommandeEnTension.sh",
+						"offcommand": "/root/programmes_python/stopPythonPWM.sh",
+						"ontext": "ON",
+						"offtext": "OFF",
+						"initialstate": false,
+						"caption": "Switch ON"
+					}
+				}
+			]
+		},
+		{
+			"title": "Consignes moteurs",
+			"width": 1,
+			"row": {
+				"3": 5,
+				"4": 1,
+				"5": 9
+			},
+			"col": {
+				"3": 1,
+				"4": 2,
+				"5": 1
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "switchbutton",
+					"settings": {
+						"title": "Type de signal (carré ou sinus)",
+						"variable": "datasources[\"ws\"][\"typeSignal\"]",
+						"yestext": "Sinus",
+						"notext": "Carré",
+						"initialstate": false
+					}
+				},
+				{
+					"type": "slider",
+					"settings": {
+						"title": "Offset",
+						"variable": "datasources[\"ws\"][\"offset\"]",
+						"formula": "x",
+						"initialvalue": 0,
+						"min": -6,
+						"max": 6,
+						"resolution": 1,
+						"resetvalue": 0,
+						"resetcaption": "Reset"
+					}
+				},
+				{
+					"type": "slider",
+					"settings": {
+						"title": "Amplitude",
+						"variable": "datasources[\"ws\"][\"amplitude\"]",
+						"formula": "x",
+						"initialvalue": 0,
+						"min": 0,
+						"max": 6,
+						"resolution": 1,
+						"resetvalue": 0,
+						"resetcaption": "Reset"
+					}
+				},
+				{
+					"type": "slider",
+					"settings": {
+						"title": "Fréquence",
+						"variable": "datasources[\"ws\"][\"frequence\"]",
+						"formula": "x",
+						"initialvalue": 0,
+						"min": 0,
+						"max": 5,
+						"resolution": 2,
+						"resetvalue": 0,
+						"resetcaption": "Reset"
+					}
+				}
+			]
+		},
+		{
+			"title": "Moniteur",
+			"width": 1,
+			"row": {
+				"3": 11,
+				"4": 23
+			},
+			"col": {
+				"3": 2,
+				"4": 1
+			},
+			"col_width": "1",
+			"widgets": [
+				{
+					"type": "textarea",
+					"settings": {
+						"nblines_window": "5",
+						"value": [
+							"datasources[\"ws\"][\"Raw\"]"
+						]
+					}
+				}
+			]
+		},
+		{
+			"title": "Vitesse moteur",
+			"width": 1,
+			"row": {
+				"3": 11,
+				"4": 9,
+				"5": 9
+			},
+			"col": {
+				"3": 3,
+				"4": 4,
+				"5": 3
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "text_widget",
+					"settings": {
+						"title": "Vitesse moteur",
+						"size": "regular",
+						"value": "datasources[\"ws\"][\"omega\"]",
+						"animate": false,
+						"units": "rad/s"
+					}
+				}
+			]
+		}
+	],
+	"datasources": [
+		{
+			"name": "ws",
+			"type": "websocket",
+			"settings": {
+				"host": "ws://192.168.100.199:9090/ws",
+				"variables_to_send": "typeSignal,offset,amplitude,frequence",
+				"refresh_rate": 500,
+				"checksum": "none",
+				"name": "ws"
+			}
+		}
+	],
+	"columns": 3
+}
