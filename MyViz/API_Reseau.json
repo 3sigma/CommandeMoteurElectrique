@@ -1,0 +1,235 @@
+{
+	"version": 1,
+	"allow_edit": true,
+	"plugins": [],
+	"panes": [
+		{
+			"title": "Démarrage de l'application",
+			"width": 1,
+			"row": {
+				"3": 1,
+				"4": 1
+			},
+			"col": {
+				"3": 1,
+				"4": 1
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "sshcommand",
+					"settings": {
+						"style": "switch",
+						"host": "192.168.100.199",
+						"login": "root",
+						"password": "pcduino",
+						"oncommand": "/root/programmes_python/startMoteur_API.sh",
+						"offcommand": "/root/programmes_python/stopPythonPWM.sh",
+						"ontext": "ON",
+						"offtext": "OFF",
+						"initialstate": false,
+						"caption": "Switch ON"
+					}
+				}
+			]
+		},
+		{
+			"title": "Tracés",
+			"width": 1,
+			"row": {
+				"2": 9,
+				"3": 1,
+				"4": 1,
+				"5": 7
+			},
+			"col": {
+				"2": 2,
+				"3": 2,
+				"4": 3,
+				"5": 3
+			},
+			"col_width": "2",
+			"widgets": [
+				{
+					"type": "plot",
+					"settings": {
+						"title": "Commande en tension",
+						"xaxis": "datasource_column",
+						"time": "datasources[\"ws\"][\"Temps\"]",
+						"time_window": "10",
+						"value": [
+							"datasources[\"ws\"][\"vref\"]"
+						],
+						"y_axis_min_range": "-1,1",
+						"y2value": [
+							"datasources[\"ws\"][\"omega\"]"
+						],
+						"y2_axis_min_range": "-10,10",
+						"include_legend": true,
+						"legendStr": "vref,omega",
+						"height": 4,
+						"pausable": true
+					}
+				},
+				{
+					"type": "plot",
+					"settings": {
+						"title": "Asservissement en vitesse",
+						"xaxis": "datasource_column",
+						"time": "datasources[\"ws\"][\"Temps\"]",
+						"time_window": 10,
+						"value": [
+							"datasources[\"ws\"][\"omegaref\"]",
+							"datasources[\"ws\"][\"omega\"]"
+						],
+						"y_axis_min_range": "-1,1",
+						"y2value": [
+							"datasources[\"ws\"][\"commande\"]"
+						],
+						"y2_axis_min_range": "-10,10",
+						"include_legend": true,
+						"legendStr": "omegaref,omega,commande",
+						"height": 4,
+						"pausable": true
+					}
+				},
+				{
+					"type": "plot",
+					"settings": {
+						"title": "Asservissement en position",
+						"xaxis": "datasource_column",
+						"time": "datasources[\"ws\"][\"Temps\"]",
+						"time_window": 10,
+						"value": [
+							"datasources[\"ws\"][\"thetaref\"]",
+							"datasources[\"ws\"][\"theta\"]"
+						],
+						"y_axis_min_range": "-10,10",
+						"y2value": [
+							"datasources[\"ws\"][\"commande\"]"
+						],
+						"y2_axis_min_range": "-0.1,0.1",
+						"include_legend": true,
+						"legendStr": "thetaref,theta,commande",
+						"height": 4,
+						"pausable": true
+					}
+				}
+			]
+		},
+		{
+			"title": "Tension de commande",
+			"width": 1,
+			"row": {
+				"3": 5,
+				"4": 5
+			},
+			"col": {
+				"3": 1,
+				"4": 1
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "text_widget",
+					"settings": {
+						"size": "regular",
+						"value": "datasources[\"ws\"][\"commande\"]",
+						"animate": false,
+						"units": "V"
+					}
+				}
+			]
+		},
+		{
+			"title": "Vitesse moteur",
+			"width": 1,
+			"row": {
+				"3": 9,
+				"4": 9,
+				"5": 9
+			},
+			"col": {
+				"3": 1,
+				"4": 4,
+				"5": 3
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "text_widget",
+					"settings": {
+						"title": "",
+						"size": "regular",
+						"value": "datasources[\"ws\"][\"omega\"]",
+						"animate": false,
+						"units": "rad/s"
+					}
+				}
+			]
+		},
+		{
+			"title": "Angle moteur",
+			"width": 1,
+			"row": {
+				"3": 13,
+				"4": 13
+			},
+			"col": {
+				"3": 1,
+				"4": 1
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "text_widget",
+					"settings": {
+						"size": "regular",
+						"value": "datasources[\"ws\"][\"theta\"]",
+						"animate": false,
+						"units": "rad"
+					}
+				}
+			]
+		},
+		{
+			"title": "Moniteur",
+			"width": 1,
+			"row": {
+				"3": 17,
+				"4": 23,
+				"5": 23
+			},
+			"col": {
+				"3": 1,
+				"4": 1,
+				"5": 1
+			},
+			"col_width": "1",
+			"widgets": [
+				{
+					"type": "textarea",
+					"settings": {
+						"nblines_window": "5",
+						"value": [
+							"datasources[\"ws\"][\"Raw\"]"
+						]
+					}
+				}
+			]
+		}
+	],
+	"datasources": [
+		{
+			"name": "ws",
+			"type": "websocket",
+			"settings": {
+				"host": "ws://192.168.100.199:9090/ws",
+				"variables_to_send": "typeSignal,offset,amplitude,frequence,Kp,Ki,Kd",
+				"refresh_rate": 500,
+				"checksum": "none"
+			}
+		}
+	],
+	"columns": 3
+}
