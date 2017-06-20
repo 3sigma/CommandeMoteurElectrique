@@ -4,47 +4,6 @@
 	"plugins": [],
 	"panes": [
 		{
-			"title": "Tracés",
-			"width": 1,
-			"row": {
-				"2": 9,
-				"3": 5,
-				"4": 1,
-				"5": 7
-			},
-			"col": {
-				"2": 2,
-				"3": 2,
-				"4": 3,
-				"5": 3
-			},
-			"col_width": "2",
-			"widgets": [
-				{
-					"type": "plot",
-					"settings": {
-						"title": "Commande et vitesse",
-						"xaxis": "datasource_column",
-						"time": "datasources[\"ws\"][\"Temps\"]",
-						"time_window": "4",
-						"value": [
-							"datasources[\"ws\"][\"Consigne\"]",
-							"datasources[\"ws\"][\"omega\"]"
-						],
-						"y_axis_min_range": "-1,1",
-						"y2value": [
-							"datasources[\"ws\"][\"commande\"]"
-						],
-						"y2_axis_min_range": "-10,10",
-						"include_legend": true,
-						"legendStr": "Ref,omega,commande",
-						"height": 4,
-						"pausable": true
-					}
-				}
-			]
-		},
-		{
 			"title": "Démarrage de l'application",
 			"width": 1,
 			"row": {
@@ -75,7 +34,7 @@
 			]
 		},
 		{
-			"title": "Consignes moteurs",
+			"title": "Consigne moteur",
 			"width": 1,
 			"row": {
 				"3": 1,
@@ -171,15 +130,83 @@
 			]
 		},
 		{
+			"title": "Tracés",
+			"width": 1,
+			"row": {
+				"2": 9,
+				"3": 5,
+				"4": 1,
+				"5": 7
+			},
+			"col": {
+				"2": 2,
+				"3": 2,
+				"4": 3,
+				"5": 3
+			},
+			"col_width": "2",
+			"widgets": [
+				{
+					"type": "plot",
+					"settings": {
+						"title": "Commande et vitesse",
+						"xaxis": "datasource_column",
+						"time": "datasources[\"ws\"][\"Temps\"]",
+						"time_window": "4",
+						"value": [
+							"datasources[\"ws\"][\"Consigne\"]",
+							"datasources[\"ws\"][\"omega\"]"
+						],
+						"y_axis_min_range": "-1,1",
+						"y2value": [
+							"datasources[\"ws\"][\"commande\"]"
+						],
+						"y2_axis_min_range": "-10,10",
+						"include_legend": true,
+						"legendStr": "Ref,omega,commande",
+						"height": 4,
+						"pausable": true
+					}
+				}
+			]
+		},
+		{
+			"title": "Boucle fermée",
+			"width": 1,
+			"row": {
+				"3": 15,
+				"4": 15
+			},
+			"col": {
+				"3": 2,
+				"4": 2
+			},
+			"col_width": "2",
+			"widgets": [
+				{
+					"type": "closedloop",
+					"settings": {
+						"title": " Asservissement de vitesse",
+						"ref": "datasources[\"ws\"][\"Consigne\"]",
+						"error": "(datasources[\"ws\"][\"Consigne\"]-datasources[\"ws\"][\"omega\"]).toFixed(2)",
+						"command": "datasources[\"ws\"][\"commande\"]",
+						"output": "datasources[\"ws\"][\"omega\"]"
+					}
+				}
+			]
+		},
+		{
 			"title": "Gains du PID",
 			"width": 1,
 			"row": {
 				"3": 17,
-				"4": 11
+				"4": 11,
+				"5": 11
 			},
 			"col": {
 				"3": 1,
-				"4": 2
+				"4": 2,
+				"5": 2
 			},
 			"col_width": 1,
 			"widgets": [
@@ -232,11 +259,13 @@
 			"width": 1,
 			"row": {
 				"3": 25,
-				"4": 23
+				"4": 23,
+				"5": 23
 			},
 			"col": {
 				"3": 2,
-				"4": 1
+				"4": 1,
+				"5": 1
 			},
 			"col_width": "1",
 			"widgets": [
@@ -247,29 +276,6 @@
 						"value": [
 							"datasources[\"ws\"][\"Raw\"]"
 						]
-					}
-				}
-			]
-		},
-		{
-			"title": "Boucle fermée",
-			"width": 1,
-			"row": {
-				"3": 15
-			},
-			"col": {
-				"3": 2
-			},
-			"col_width": "2",
-			"widgets": [
-				{
-					"type": "closedloop",
-					"settings": {
-						"title": " Asservissement de vitesse",
-						"ref": "datasources[\"ws\"][\"Consigne\"]",
-						"error": "(datasources[\"ws\"][\"Consigne\"]-datasources[\"ws\"][\"omega\"]).toFixed(2)",
-						"command": "datasources[\"ws\"][\"commande\"]",
-						"output": "datasources[\"ws\"][\"omega\"]"
 					}
 				}
 			]
